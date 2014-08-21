@@ -13,3 +13,10 @@ To run the script, open a terminal, cd to the directory and type
 The result is on the tmp directory.
 
 Upload is disabled for now.
+
+
+*Copyright (C) 2009-2014 LAFKON/Christoph Haag/Xavier Klein.*
+
+*This is free software, and you may redistribute it under the GPL.*
+*This Software comes with absolutely no warranty.*
+*For details see the license (http://www.lafkon.net/gpl.txt)*
