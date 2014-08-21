@@ -1,0 +1,231 @@
+function CSS(){
+
+CSSFILE=$TMPDIR/style.css
+
+#echo "body {text-align:center;}"    > $CSSFILE
+#echo ""                         >>$CSSFILE
+
+#echo "#CONTENT { width:75%; margin:0px auto; text-align:left;}" >>$CSSFILE
+#echo ""                         >>$CSSFILE
+
+echo "img {width:75%;}"        >>$CSSFILE
+
+echo ".OTHER{"            >> $CSSFILE
+echo "color:black; width:75%;     position:relative;}"              >>$CSSFILE
+echo ""                         >>$CSSFILE
+
+echo ".REGULARTXT{"       >>$CSSFILE
+echo "color:black; width:75%;     position:relative;}"              >>$CSSFILE
+echo ""                         >>$CSSFILE
+
+
+echo ".TITLE{"                  >>$CSSFILE
+echo "color:black;}"              >>$CSSFILE
+echo ""                         >>$CSSFILE
+
+
+echo ".SUBTITLE{"               >>$CSSFILE
+echo "color:black;}"              >>$CSSFILE
+echo ""                         >>$CSSFILE
+
+
+echo ".NOTE{"                   >>$CSSFILE
+echo "color:orange; width:25%; left:108%;     position:absolute;}"              >>$CSSFILE
+echo ""                         >>$CSSFILE
+
+
+}
+
+
+function HTMLHEADER(){
+
+echo "<!DOCTYPE html>"                                      >  $HTMLFILE
+echo "<html xmlns="http://www.w3.org/1999/xhtml">"          >> $HTMLFILE
+echo "<head>"                                               >> $HTMLFILE
+echo "<title></title>"                                  >> $HTMLFILE
+echo "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />"   >> $HTMLFILE
+echo "<link rel='stylesheet' type='text/css' href='style.css' />"          >> $HTMLFILE
+echo "</head>"                                              >> $HTMLFILE
+echo "<body>"                                               >> $HTMLFILE
+echo "<div id='CONTENT'>"                                   >> $HTMLFILE
+
+}
+
+function HTMLFOOTER(){
+
+echo "</div>"                                                >> $HTMLFILE
+echo "</body>"                                               >> $HTMLFILE
+echo "</html>"                                               >> $HTMLFILE
+
+}
+
+# =========================================================================== #
+# MDSH FUNCTIONS
+# =========================================================================== #
+
+function WWWGRAFIK(){
+
+# RESET SPEAKER HACK
+NOWSPEAKING IMG
+
+XSHIFT=40
+XPOS=`expr $XPOSSTANDARD  + 10 + $XSHIFT`
+
+HEIGHT=300
+
+IMGURL=$1
+IMGLEGEND=`echo $2 | sed "s/|/ /g"`
+IMGTYPE=`echo "$IMGURL" | rev | cut -d "." -f1 | rev`
+
+echo "URL=$IMGURL"
+
+
+echo "<figure><img src='$IMGURL' alt=''><figcaption>$IMGLEGEND</figcaption></figure>" >> $HTMLFILE
+
+
+#IMGWIDTH=`identify  $IMG | sed "s/ /\n/g" | grep -m1 300 | cut -d "x" -f1`
+
+
+
+
+
+FULLHEIGHT=`expr $YPOS - 150 + $HEIGHT + 40`
+echo "$FULLHEIGHT"
+sed -i "s/HEIGHTFOO/$HEIGHT/g" ${FILE}.box
+
+
+
+# VALUES USED FOR NEXT BOX/FILE ###############################################
+###############################################################################
+
+# START NEXT BOX/FILE
+# --------------------------------------------------------------------------- #
+  FILENAME=`expr $FILENAME + 100`
+  FILE=$TMPDIR/$FILENAME
+
+#  FILE=$FILESAVE
+
+# YPOS ACCORDING TO HEIGHT OF PREVIOUS BOX       #
+# ---------------------------------------------- #
+  YPOS=`expr ${YPOS} + ${HEIGHT} + 40`
+
+
+}
+
+# --------------------------------------------------------------------------- #
+
+function NOWSPEAKING() {
+
+SPEAKER=$1
+
+
+if [ "$SPEAKER" == "XX" ]
+then
+CLASS=OTHER
+
+elif [ "$SPEAKER" == "" ]
+then
+CLASS=REGULARTXT
+
+fi
+
+  cat ${FILE}.dump | sed ':a;N;$!ba;s/\n/ /g' | sed   "s/^/<div class=\'$CLASS\'>/" |\
+  sed "s/$/<\/div>/" | sed  "s/<div><\/div>//g"       >> $HTMLFILE
+
+
+
+  sed -i  "s/^$/$EMPTYLINE/g"       $HTMLFILE # REPLACE EMPTY LINE WITH PLACEHOLDER
+  sed -i  "s/$EMPTYLINE/\n&\n/g"    $HTMLFILE # PUT EMPTY LINE PLACEHOLDER ON SEPARATE LINE
+  sed -i 's/^[ \t]*//'              $HTMLFILE # REMOVE LEADING BLANKS
+  sed -i '/^$/d'                    $HTMLFILE # REMOVE BLANKS LINES
+  sed -i '$!N; /^\(.*\)\n\1$/!P; D' $HTMLFILE # REMOVE CONSECUTIVE EQUAL LINES
+  sed -i  "s/$EMPTYLINE//g"         $HTMLFILE # REMOVE EMPTYLINE PLACEHOLDER
+  sed -i -e :a -e '/^\n*$/{$d;N;ba' -e '}' $HTMLFILE # DELETE ALL TRAILING BLANK LINES AT THE END OF THE FILE
+  sed -i  "s/ ,/,/g"                $HTMLFILE # REMOVE BAD FORMATTING
+
+
+
+
+# POSITION AUTHORBOX (SUBSTITUTE PLACEHOLDERS)
+# --------------------------------------------------------------------------- #
+  if [ `echo $AUTHORBOX | wc -c` -gt 2 ]; then
+
+
+
+
+
+# NUMBER FOOTNOTES AND POSITION FOOTNOTEBOX (SUBSTITUTE PLACEHOLDERS)
+# --------------------------------------------------------------------------- #
+
+
+
+
+
+
+# VALUES USED FOR NEXT BOX/FILE ###############################################
+###############################################################################
+
+# START NEXT BOX/FILE
+# --------------------------------------------------------------------------- #
+  FILENAME=`expr $FILENAME + 100`
+  FILE=$TMPDIR/$FILENAME
+
+# YPOS ACCORDING TO HEIGHT OF PREVIOUS BOX       #
+# ---------------------------------------------- #
+  YPOS=`expr ${YPOS} + ${HEIGHT} + 40`
+
+
+# PEOPLE ######################################################################
+###############################################################################
+
+
+
+
+
+
+
+
+
+fi
+
+
+###############################################################################
+
+
+}
+
+
+
+# --------------------------------------------------------------------------- #
+
+
+# --------------------------------------------------------------------------- #
+
+function TITLE() {
+
+  TITLENOTE=`grep "^% TITLE" $PADDUMP |  \
+            tail -1 | \
+            cut -d ":" -f 2-`
+
+
+ TITLETEXT=`echo $1 | sed "s/|/ /g"`
+
+
+  echo "<div class='TITLE'>$TITLETEXT</div>"  >> $HTMLFILE
+
+
+}
+
+function SUBTITLE() {
+
+  SUBTITLENOTE=`grep "^% SUBTITLE" $PADDUMP |  \
+            tail -1 | \
+            cut -d ":" -f 2-`
+
+ SUBTITLETEXT=`echo $2 | sed "s/|/ /g"`
+ SUBTITLENUMBER=$1
+
+
+  echo "<div class='SUBTITLE'>$SUBTITLENUMBER - $SUBTITLETEXT</div>"  >> $HTMLFILE
+
+}
