@@ -1,8 +1,15 @@
-MDSH2HTML
+#MDSH2HTML
 
-Making an automatic website for the conversations powered by Hotglue.
+*Making an semi-automatic website from a pad online*
 
-If you want to make the whole website, just run m2h-upload.sh
-If you want to make just one ITW, run mdsh2hotglue.sh <nameofthepage>
+Right now, it's configure to grab the from this pad :
+[http://lite4.framapad.org/p/CompteRenduMarathonTypoLibre2](http://lite4.framapad.org/p/CompteRenduMarathonTypoLibre2)
 
-You can add new pages from the pads in pagename. 
+You can change it inside the script.
+
+To run the script, open a terminal, cd to the directory and type
+**bash mdsh2html.sh**
+
+The result is on the tmp directory.
+
+Upload is disabled for now.

@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# Copyright (C) 2009-2014 LAFKON/Christoph Haag/Xavier Klein.
+#
+# This is free software, and you may redistribute it under the GPL.
+# This Software comes with absolutely no warranty.
+# For details see the license (http://www.lafkon.net/gpl.txt)
+
+
+
+
 	#echo "Please indicate your directory where Hotglue is install"
 	#read MAINURL
 
