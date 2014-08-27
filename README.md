@@ -1,6 +1,6 @@
 #MDSH2HTML
 
-*Making an semi-automatic website from a pad online*
+*Making a semi-automatic website from a pad online*
 
 Right now, it's configure to grab the from this pad :
 [http://lite4.framapad.org/p/CompteRenduMarathonTypoLibre2](http://lite4.framapad.org/p/CompteRenduMarathonTypoLibre2)
